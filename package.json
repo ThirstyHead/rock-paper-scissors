@@ -1,0 +1,19 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "0.1.0",
+  "description": "[GAME] Rock Paper Scissors",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThirstyHead/rock-paper-scissors.git"
+  },
+  "author": "Scott Davis <scott@thirstyhead.com> (https://thirstyhead.com)",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/ThirstyHead/rock-paper-scissors/issues"
+  },
+  "homepage": "https://github.com/ThirstyHead/rock-paper-scissors#readme"
+}
