@@ -1,4 +1,4 @@
-export class Dice{
+export default class Dice{
   constructor(sides=6){
     this.sides = Math.ceil(sides);
   }

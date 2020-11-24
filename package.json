@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "rock-paper-scissors",
   "version": "0.1.0",
   "description": "[GAME] Rock Paper Scissors",

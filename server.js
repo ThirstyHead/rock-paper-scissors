@@ -1,12 +1,15 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import Dice from './www/modules/dice.mjs';
 const port = 8888;
+const webroot = './www';
 
 let mimeTypes = new Map();
 mimeTypes.set('.html', 'text/html');
 mimeTypes.set('.mjs', 'text/javascript');
 mimeTypes.set('.json', 'application/json');
+mimeTypes.set('.png', 'image/png');
 
 const server = http.createServer( (request, response) => {
   switch(request.url){
@@ -30,7 +33,7 @@ server.on('listening', (event) => {
  * Returns a file for a HTTP request
  */
 function handleFileRequest(request, response){
-  let filePath = '.' + request.url;
+  let filePath = webroot + request.url;
   if(filePath.endsWith('/')){
      filePath += 'index.html'
   }
@@ -57,7 +60,15 @@ function handleFileRequest(request, response){
  * Returns a JSON object that contains 'Rock', 'Paper', or 'Scissors'
  */
 function handlePlayRequest(request, response){
-  let content = {play: 'Rock'};
+  const results = ['', 'rock', 'paper', 'scissors'];
+  const dice = new Dice(3);
+  const result = results[dice.roll()];
+
+  let content = {
+    play: result,
+    player1: `/img/${result}-left.png`,
+    player2: `/img/${result}-right.png`
+  };
   const contentType = mimeTypes.get('.json');
   response.writeHead(200, {'Content-Type': contentType});
   response.end(JSON.stringify(content));
