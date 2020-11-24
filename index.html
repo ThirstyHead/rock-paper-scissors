@@ -11,7 +11,7 @@
     <style>
       main{
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 50% 50%;
         grid-template-areas:
           "header  header"
           "player1 player2";
@@ -23,10 +23,14 @@
 
       #player1{
         grid-area: player1;
+        background-color: yellow;
+        padding: 1em;
       }
 
       #player2{
         grid-area: player2;
+        background-color: orange;
+        padding: 1em;
       }
     </style>
   </head>
