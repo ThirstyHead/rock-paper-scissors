@@ -34,7 +34,7 @@
       }
       
       img{
-        width: 25%;
+        width: 50%;
         display: block;
         margin: 1em;
       }
@@ -62,10 +62,14 @@
         fetch('/play')
           .then(response => response.json())
           .then(data => {
-            console.dir(data);
+            // show the new image
             let playerResult = document.querySelector('#' + playerId + '-result');
             playerResult.src = data[playerId];
             playerResult.alt = playerName + ' played ' + data.play;
+
+            // remove this player's Play button
+            let button = document.querySelector('#' + playerId + ' > button');
+            button.parentNode.removeChild(button);
           });
       }
 
