@@ -14,7 +14,8 @@
         grid-template-columns: 50% 50%;
         grid-template-areas:
           "header  header"
-          "player1 player2";
+          "player1 player2"
+          "result  result";
       }
 
       header{
@@ -30,6 +31,12 @@
       #player2{
         grid-area: player2;
         background-color: orange;
+        padding: 1em;
+      }
+
+      #result{
+        grid-area: result;
+        background-color: purple;
         padding: 1em;
       }
 
@@ -72,7 +79,7 @@
 
             // remove this player's Play button
             let button = document.querySelector('#' + playerId + ' > button');
-            button.parentNode.removeChild(button);
+            button.style.visibility = 'hidden';
 
             // is there a winner yet?
             showResults();
@@ -80,33 +87,52 @@
       }
 
       function showResults(){
-        let buttons = document.querySelectorAll('button');
-        
-        // no buttons means that all players have played
-        if(buttons.length === 0){
-          let player1Result = document.querySelector('#player1-result').getAttribute('alt');
-          let player2Result = document.querySelector('#player2-result').getAttribute('alt');
+        const player1Result = document.querySelector('#player1-result').getAttribute('alt');
+        const player2Result = document.querySelector('#player2-result').getAttribute('alt');
 
-          console.log(player1Result);
-          console.log(player2Result);
+        const winner = calculateWinner(player1Result, player2Result);
+        let result = document.querySelector('#result');
+        result.innerHTML = winner;
 
-
-          // rock beats scissors
-          // scissors beats paper
-          // paper beats rock
-          // equal is a tie
-
-          //    r   p   s
-          // r  T   L   W
-          // p  W   T   L
-          // s  L   W   T
-
-
-
-        } 
-
+          // resetGame
       }
+      /**
+        * rock beats scissors
+        * scissors beats paper
+        * paper beats rock
+        * equal is a tie
+        *
+        *    r   p   s
+        * r  T   L   W
+        * p  W   T   L
+        * s  L   W   T
+        * 
+        * player1 = Scott played paper
+        * or
+        * player1 = Scott hasn't played yet
+        */
+      function calculateWinner(player1, player2){
+        if(player1.endsWith('yet') || player2.endsWith('yet')){
+          return 'Still waiting for a player to play';
+        }
 
+        const PLAYER = 0;
+        const PLAY = 2;
+        const p1 = player1.split(' ');
+        const p2 = player2.split(' ');
+
+        if(p1[PLAY] === p2[PLAY]){
+          return "It's a tie!";
+        }
+
+        if(p1[PLAY] === 'rock'     && p2[PLAY] === 'scissors' ||
+           p1[PLAY] === 'paper'    && p2[PLAY] === 'rock' ||
+           p1[PLAY] === 'scissors' && p2[PLAY] === 'paper'){
+          return `${p1[PLAYER]} wins!`;
+        } else{
+          return `${p2[PLAYER]} wins!`;
+        }
+      }
 
     </script>
   </head>
@@ -122,9 +148,9 @@
         <label for="player1-name">Name</label>
         <input type="text" id="player1-name">
         <button>Ready? Set? Go!</button>
-        <img src="/img/question-mark.png"
+        <img src="/img/question-mark-alpha.png"
              id="player1-result"
-             alt="Player 1 hasn't played yet.">
+             alt="Player 1 hasn't played yet">
       </section>
 
       <section id="player2">
@@ -132,10 +158,12 @@
         <label for="player2-name">Name</label>
         <input type="text" id="player2-name">
         <button>Ready? Set? Go!</button>
-        <img src="/img/question-mark.png"
+        <img src="/img/question-mark-alpha.png"
              id="player2-result"
-             alt="Player 2 hasn't played yet.">
+             alt="Player 2 hasn't played yet">
       </section>
+
+      <section id="result"></section>
     </main>
   </body>
 </html>
