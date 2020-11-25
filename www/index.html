@@ -38,6 +38,8 @@
         grid-area: result;
         background-color: purple;
         padding: 1em;
+        font-size: 2em;
+        font-weight: bold;
       }
 
       img{
@@ -54,14 +56,50 @@
 
     <script>
       window.addEventListener('load', init);
-      
+
+      /**
+        * called once when the window loads
+        */
       function init(){
-        const buttons = document.querySelectorAll('button');
+        const buttons = document.querySelectorAll('button.play');
         buttons.forEach( button => {
           button.addEventListener('click', play);
         });
+
+        const resetButton = document.querySelector('button.reset');
+        resetButton.addEventListener('click', resetGame);
+        resetButton.style.visibility = 'hidden';
       }
 
+      /**
+        * called when the resetGame button is clicked
+        */
+      function resetGame(){
+        // show player buttons
+        const buttons = document.querySelectorAll('button.play');
+        buttons.forEach( button => {
+          button.style.visibility = 'visible';
+        });
+
+        // reset play images to question mark
+        ['player1', 'player2'].forEach( playerId => {
+          let playerResult = document.querySelector('#' + playerId + '-result');
+          playerResult.src = '/img/question-mark-alpha.png'; 
+          playerResult.alt = playerId + "hasn't played yet";
+        });
+
+        // hide reset game button
+        let resetButton = document.querySelector('button.reset');
+        resetButton.style.visibility = 'hidden';
+
+        // empty previous game results
+        let result = document.querySelector('#result p');
+        result.innerHTML = '&nbsp;';
+      }
+
+      /**
+        * called when the Ready? Set? Go! button is clicked
+        */
       function play(event){
         const playerId = event.srcElement.parentElement.id
         let playerName = document.querySelector('#' + playerId + '-name').value;
@@ -77,8 +115,8 @@
             playerResult.src = data[playerId];
             playerResult.alt = playerName + ' played ' + data.play;
 
-            // remove this player's Play button
-            let button = document.querySelector('#' + playerId + ' > button');
+            // hide this player's Play button
+            let button = document.querySelector('#' + playerId + ' > button.play');
             button.style.visibility = 'hidden';
 
             // is there a winner yet?
@@ -86,20 +124,29 @@
           });
       }
 
+      /**
+        * show the results on the screen (even intermediate results!)
+        */
       function showResults(){
         const player1Result = document.querySelector('#player1-result').getAttribute('alt');
         const player2Result = document.querySelector('#player2-result').getAttribute('alt');
 
         const winner = calculateWinner(player1Result, player2Result);
-        let result = document.querySelector('#result');
+        let result = document.querySelector('#result p');
         result.innerHTML = winner;
 
-          // resetGame
+        if(winner.endsWith('wins!') || winner.endsWith('tie!')){
+          let resetButton = document.querySelector('button.reset');
+          resetButton.style.visibility = 'visible';
+        }
       }
+
       /**
+        * calculates the winner of the game (or returns intermediate results)
+        * 
         * rock beats scissors
-        * scissors beats paper
         * paper beats rock
+        * scissors beats paper
         * equal is a tie
         *
         *    r   p   s
@@ -147,7 +194,7 @@
         <h2>Player 1</h2>
         <label for="player1-name">Name</label>
         <input type="text" id="player1-name">
-        <button>Ready? Set? Go!</button>
+        <button class="play">Ready? Set? Go!</button>
         <img src="/img/question-mark-alpha.png"
              id="player1-result"
              alt="Player 1 hasn't played yet">
@@ -157,13 +204,16 @@
         <h2>Player 2</h2>
         <label for="player2-name">Name</label>
         <input type="text" id="player2-name">
-        <button>Ready? Set? Go!</button>
+        <button class="play">Ready? Set? Go!</button>
         <img src="/img/question-mark-alpha.png"
              id="player2-result"
              alt="Player 2 hasn't played yet">
       </section>
 
-      <section id="result"></section>
+      <section id="result">
+        <p>&nbsp;</p>
+        <button class="reset">Play again?</button>
+      </section>
     </main>
   </body>
 </html>
