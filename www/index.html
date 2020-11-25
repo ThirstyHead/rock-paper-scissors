@@ -32,11 +32,15 @@
         background-color: orange;
         padding: 1em;
       }
-      
+
       img{
         width: 50%;
         display: block;
         margin: 1em;
+      }
+
+      .winner{
+        border: 5em solid green;
       }
 
     </style>
@@ -57,7 +61,6 @@
         if(playerName === ''){
           playerName = playerId.charAt(0).toUpperCase() + playerId.slice(1);
         }
-        console.log(playerName);
 
         fetch('/play')
           .then(response => response.json())
@@ -70,7 +73,38 @@
             // remove this player's Play button
             let button = document.querySelector('#' + playerId + ' > button');
             button.parentNode.removeChild(button);
+
+            // is there a winner yet?
+            showResults();
           });
+      }
+
+      function showResults(){
+        let buttons = document.querySelectorAll('button');
+        
+        // no buttons means that all players have played
+        if(buttons.length === 0){
+          let player1Result = document.querySelector('#player1-result').getAttribute('alt');
+          let player2Result = document.querySelector('#player2-result').getAttribute('alt');
+
+          console.log(player1Result);
+          console.log(player2Result);
+
+
+          // rock beats scissors
+          // scissors beats paper
+          // paper beats rock
+          // equal is a tie
+
+          //    r   p   s
+          // r  T   L   W
+          // p  W   T   L
+          // s  L   W   T
+
+
+
+        } 
+
       }
 
 
