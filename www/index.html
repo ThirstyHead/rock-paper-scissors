@@ -84,7 +84,7 @@
         // reset play images to question mark
         ['player1', 'player2'].forEach( playerId => {
           let playerResult = document.querySelector('#' + playerId + '-result');
-          playerResult.src = '/img/question-mark-alpha.png'; 
+          playerResult.src = '/img/question-mark.png'; 
           playerResult.alt = playerId + "hasn't played yet";
         });
 
@@ -195,7 +195,7 @@
         <label for="player1-name">Name</label>
         <input type="text" id="player1-name">
         <button class="play">Ready? Set? Go!</button>
-        <img src="/img/question-mark-alpha.png"
+        <img src="/img/question-mark.png"
              id="player1-result"
              alt="Player 1 hasn't played yet">
       </section>
@@ -205,7 +205,7 @@
         <label for="player2-name">Name</label>
         <input type="text" id="player2-name">
         <button class="play">Ready? Set? Go!</button>
-        <img src="/img/question-mark-alpha.png"
+        <img src="/img/question-mark.png"
              id="player2-result"
              alt="Player 2 hasn't played yet">
       </section>
