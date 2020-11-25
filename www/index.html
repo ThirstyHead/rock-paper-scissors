@@ -32,7 +32,45 @@
         background-color: orange;
         padding: 1em;
       }
+      
+      img{
+        width: 25%;
+        display: block;
+        margin: 1em;
+      }
+
     </style>
+
+    <script>
+      window.addEventListener('load', init);
+      
+      function init(){
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach( button => {
+          button.addEventListener('click', play);
+        });
+      }
+
+      function play(event){
+        const playerId = event.srcElement.parentElement.id
+        let playerName = document.querySelector('#' + playerId + '-name').value;
+        if(playerName === ''){
+          playerName = playerId.charAt(0).toUpperCase() + playerId.slice(1);
+        }
+        console.log(playerName);
+
+        fetch('/play')
+          .then(response => response.json())
+          .then(data => {
+            console.dir(data);
+            let playerResult = document.querySelector('#' + playerId + '-result');
+            playerResult.src = data[playerId];
+            playerResult.alt = playerName + ' played ' + data.play;
+          });
+      }
+
+
+    </script>
   </head>
 
   <body>
@@ -43,16 +81,22 @@
 
       <section id="player1">
         <h2>Player 1</h2>
-        <label for="player1name">Name</label>
-        <input type="text" id="player1name">
+        <label for="player1-name">Name</label>
+        <input type="text" id="player1-name">
         <button>Ready? Set? Go!</button>
+        <img src="/img/question-mark.png"
+             id="player1-result"
+             alt="Player 1 hasn't played yet.">
       </section>
 
       <section id="player2">
         <h2>Player 2</h2>
-        <label for="player2name">Name</label>
-        <input type="text" id="player2name">
+        <label for="player2-name">Name</label>
+        <input type="text" id="player2-name">
         <button>Ready? Set? Go!</button>
+        <img src="/img/question-mark.png"
+             id="player2-result"
+             alt="Player 2 hasn't played yet.">
       </section>
     </main>
   </body>

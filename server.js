@@ -7,9 +7,9 @@ const webroot = './www';
 
 let mimeTypes = new Map();
 mimeTypes.set('.html', 'text/html');
-mimeTypes.set('.mjs', 'text/javascript');
 mimeTypes.set('.json', 'application/json');
 mimeTypes.set('.png', 'image/png');
+mimeTypes.set('.jpg', 'image/jpg');
 
 const server = http.createServer( (request, response) => {
   switch(request.url){
